@@ -25,8 +25,8 @@
     (when sauce ;; @TODO add log for specifying sauce in project.clj
       (let [{:keys [specs username pass driver-ns]} sauce]
         (doseq [[platform browser version] (get specs (keyword browser-spec))]
-          (let [spec {"platform" (get platform-map platform)
-                      "browserName" browser
+          (let [spec {"platform" (or (get platform-map platform) platform)
+                      "browserName" (or (get platform-map browser) browser)
                       "version" version}
                 [server driver] (init-grid 80
                                            (format "%s:%s@ondemand.saucelabs.com"
